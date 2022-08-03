@@ -8,8 +8,6 @@ const INSTRUCTION_MESSAGE = "Click icon to start recording message.";
 const INSTRUCTION_MESSAGE_STOP = "Click icon again to stop recording.";
 const ERROR_MESSAGE = "Failed to use microphone. Please refresh and try again and permit the use of a microphone.";
 const SUCCESS_MESSAGE = "Successfully recorded message!";
-const SUCCESS_MESSAGE_SUBMIT = "Successfully submitted audio message! Thank you!";
-const ERROR_SUBMITTING_MESSAGE = "Error submitting audio message! Please try again later.";
 
 const isRecording = ref<boolean>(false);
 const state = reactive<{
@@ -61,7 +59,6 @@ function stopRecording() {
 
   // emit.afterRecording(state.recordedAudio);
   emit('afterRecording', { audio: state.recordedAudio, blob: state.recordedBlob });
-  console.log({ state })
 }
 
 function micFailed() {

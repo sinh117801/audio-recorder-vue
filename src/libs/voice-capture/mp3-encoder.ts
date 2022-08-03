@@ -6,9 +6,7 @@ export default class {
     this.bitRate = config.bitRate;
     this.sampleRate = config.sampleRate;
     this.dataBuffer = [];
-    console.log('hellll', this.sampleRate, this.bitRate)
     this.encoder = new Mp3Encoder(1, this.sampleRate, this.bitRate);
-    console.log('test tf', this.encoder)
   }
 
   encode(arrayBuffer) {

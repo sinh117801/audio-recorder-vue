@@ -1,7 +1,7 @@
 /* eslint-disable */
-import Mp3Encoder from './mp3-encoder';
-import WavEncoder from './wav-encoder';
-import convertTimeMMSS from './utils';
+import MP3Encoder from "./mp3-encoder";
+import WavEncoder from "./wav-encoder";
+import { convertTimeMMSS } from "./utils";
 
 export default class Recorder {
   constructor(options = {}) {
@@ -39,7 +39,7 @@ export default class Recorder {
       },
     };
 
-    this.beforeRecording && this.beforeRecording('start recording');
+    this.beforeRecording && this.beforeRecording("start recording");
 
     navigator.mediaDevices
       .getUserMedia(constraints)
@@ -48,12 +48,9 @@ export default class Recorder {
 
     this.isPause = false;
     this.isRecording = true;
-    console.log('test')
 
     if (this._isMp3() && !this.lameEncoder) {
-      console.log('run')
-      this.lameEncoder = new Mp3Encoder(this.encoderOptions);
-      console.log('===============tf', this.lameEncoder)
+      this.lameEncoder = new MP3Encoder(this.encoderOptions);
     }
   }
 
@@ -76,7 +73,7 @@ export default class Recorder {
       record = wavEncoder.finish();
       this.wavSamples = [];
     }
-
+    console.log({ duration: this.duration })
     record.duration = convertTimeMMSS(this.duration);
     this.records.push(record);
 
@@ -97,7 +94,7 @@ export default class Recorder {
     this._duration = this.duration;
     this.isPause = true;
 
-    this.pauseRecording && this.pauseRecording('pause recording');
+    this.pauseRecording && this.pauseRecording("pause recording");
   }
 
   recordList() {
@@ -116,9 +113,7 @@ export default class Recorder {
     this.stream = stream;
 
     this.processor.onaudioprocess = (ev) => {
-      console.log({ ev });
       const sample = ev.inputBuffer.getChannelData(0);
-      console.log({ sample });
       let sum = 0.0;
 
       if (this._isMp3()) {
@@ -131,7 +126,9 @@ export default class Recorder {
         sum += sample[i] * sample[i];
       }
 
-      this.duration = parseFloat(this._duration) + parseFloat(this.context.currentTime.toFixed(2));
+      this.duration =
+        parseFloat(this._duration) +
+        parseFloat(this.context.currentTime.toFixed(2));
       this.volume = Math.sqrt(sum / sample.length).toFixed(2);
     };
 
@@ -144,6 +141,6 @@ export default class Recorder {
   }
 
   _isMp3() {
-    return this.format.toLowerCase() === 'mp3';
+    return this.format.toLowerCase() === "mp3";
   }
 }
