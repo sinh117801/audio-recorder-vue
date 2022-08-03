@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import Recorder from '@/libs/voice-capture/recorder.js';
 import { reactive, ref } from 'vue';
-// import { useVoiceRecord } from '@/libs/voice-record'
 
-// const { isRecording, startRecord, stopRecord } = useVoiceRecord()
 const INSTRUCTION_MESSAGE = "Click icon to start recording message.";
 const INSTRUCTION_MESSAGE_STOP = "Click icon again to stop recording.";
 const ERROR_MESSAGE = "Failed to use microphone. Please refresh and try again and permit the use of a microphone.";
@@ -57,7 +55,6 @@ function stopRecording() {
     state.instructionMessage = null;
   }
 
-  // emit.afterRecording(state.recordedAudio);
   emit('afterRecording', { audio: state.recordedAudio, blob: state.recordedBlob });
 }
 
